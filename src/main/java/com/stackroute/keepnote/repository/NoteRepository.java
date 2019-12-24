@@ -1,5 +1,7 @@
 package com.stackroute.keepnote.repository;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.stackroute.keepnote.model.Note;
@@ -13,23 +15,24 @@ import com.stackroute.keepnote.model.Note;
 public class NoteRepository {
 
 	/* Declare a variable called "list" to store all the notes. */
-
+List<Note> list;
 	public NoteRepository() {
 
+		list = new ArrayList<Note>();
 		/* Initialize the variable using proper data type */
 	}
 
-	/* This method should return all the notes in the list */
+	/* This method should return all the notes in the list 
 
 	public List<Note> getList() {
-		return null;
-	}
+		return list;
+	}*/
 
-	/* This method should set the list variable with new list of notes */
+	/* This method should set the list variable with new list of notes 
 
 	public void setList(List<Note> list) {
-
-	}
+    this.list = list;    
+	}*/
 
 	/*
 	 * This method should Note object as argument and add the new note object into
@@ -37,14 +40,33 @@ public class NoteRepository {
 	 */
 
 	public void addNote(Note note) {
-
+      list.add(note);
+      System.out.println("inside repo");
+      list.forEach(System.out::println);
 	}
 
 	/* This method should deleted a specified note from the list */
 
 	public boolean deleteNote(int noteId) {
 		/* Use list iterator to find matching note id and remove it from the list */
-		return false;
+		boolean status = false;
+		Iterator<Note> notelist=list.iterator();
+		while(notelist.hasNext())
+		{
+			if(notelist.next().getNoteId()==noteId)
+			{
+				notelist.remove();
+				status=true;
+				break;
+			}
+		}
+
+	/*boolean	status=list.stream().anyMatch(l->l.getNoteId()==noteId);
+	if(status) {
+		list.remove(noteId);
+		return true;
+	}*/
+		return status;
 		
 		
 	}
@@ -52,7 +74,8 @@ public class NoteRepository {
 	/* This method should return the list of notes */
 
 	public List<Note> getAllNotes() {
-		return null;
+		
+		return list;
 	}
 
 	/*
@@ -62,6 +85,7 @@ public class NoteRepository {
 	 */
 
 	public boolean exists(int noteId) {
-		return false;
+		boolean	status=list.stream().anyMatch(l->l.getNoteId()==noteId);
+		return status;
 	}
 }
